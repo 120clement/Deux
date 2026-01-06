@@ -1,0 +1,1190 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mon Profil Partageable</title>
+    <meta name="description" content="Créez votre profil personnel et partagez-le avec vos amis qui pourront répondre à vos questions et vous laisser des messages.">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #6a11cb;
+            --secondary: #2575fc;
+            --success: #28a745;
+            --warning: #ffc107;
+            --danger: #dc3545;
+            --light: #f8f9fa;
+            --dark: #343a40;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            text-align: center;
+            padding: 40px 20px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        
+        .logo {
+            font-size: 3rem;
+            margin-bottom: 20px;
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+        
+        .subtitle {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            max-width: 800px;
+            margin: 0 auto 20px;
+        }
+        
+        .features {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+            margin-top: 30px;
+        }
+        
+        .feature {
+            background: rgba(255,255,255,0.2);
+            padding: 15px 25px;
+            border-radius: 10px;
+            backdrop-filter: blur(10px);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .main-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+        
+        .card {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+            transition: transform 0.3s ease;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .card-title {
+            color: var(--primary);
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #f0f0f0;
+            font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #444;
+        }
+        
+        .required::after {
+            content: " *";
+            color: var(--danger);
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e1e5eb;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: all 0.3s;
+        }
+        
+        .form-control:focus {
+            border-color: var(--primary);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(106, 17, 203, 0.1);
+        }
+        
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            color: white;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            width: 100%;
+        }
+        
+        .btn:hover:not(:disabled) {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(106, 17, 203, 0.3);
+        }
+        
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+        
+        .btn-secondary {
+            background: #6c757d;
+        }
+        
+        .btn-success {
+            background: var(--success);
+        }
+        
+        .btn-warning {
+            background: var(--warning);
+            color: #212529;
+        }
+        
+        .hidden {
+            display: none !important;
+        }
+        
+        .link-container {
+            background: linear-gradient(135deg, #fdfcfb 0%, #e2d1c3 100%);
+            border-radius: 10px;
+            padding: 25px;
+            margin-top: 25px;
+            border: 2px dashed #d4b996;
+        }
+        
+        .profile-link {
+            color: var(--secondary);
+            font-weight: 600;
+            word-break: break-all;
+            text-decoration: none;
+            display: block;
+            margin: 15px 0;
+            padding: 15px;
+            background: white;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+        }
+        
+        .profile-link:hover {
+            text-decoration: underline;
+        }
+        
+        .share-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .share-btn {
+            flex: 1;
+            min-width: 100px;
+            padding: 12px;
+            border-radius: 8px;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            text-decoration: none;
+            transition: opacity 0.3s;
+        }
+        
+        .share-btn:hover {
+            opacity: 0.9;
+        }
+        
+        .profile-display {
+            margin-top: 20px;
+            padding: 20px;
+            background-color: #f8f9fa;
+            border-radius: 10px;
+        }
+        
+        footer {
+            text-align: center;
+            padding: 30px 20px;
+            color: #666;
+            font-size: 0.9rem;
+            border-top: 1px solid #eee;
+            margin-top: 40px;
+        }
+        
+        .step-indicator {
+            display: flex;
+            justify-content: center;
+            margin: 30px 0;
+            gap: 10px;
+        }
+        
+        .step {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background: #e9ecef;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: #6c757d;
+        }
+        
+        .step.active {
+            background: var(--primary);
+            color: white;
+        }
+        
+        .alert {
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+        }
+        
+        .alert-success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        
+        .alert-warning {
+            background-color: #fff3cd;
+            color: #856404;
+            border: 1px solid #ffeaa7;
+        }
+        
+        .alert-info {
+            background-color: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #bee5eb;
+        }
+        
+        .responses-section {
+            margin-top: 30px;
+            padding: 20px;
+            background-color: #f8f9fa;
+            border-radius: 10px;
+        }
+        
+        .response-item {
+            background: white;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-left: 4px solid var(--primary);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+        
+        .response-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .response-author {
+            font-weight: bold;
+            color: var(--primary);
+        }
+        
+        .response-date {
+            color: #666;
+            font-size: 0.9rem;
+        }
+        
+        .response-message {
+            margin-bottom: 15px;
+            padding: 10px;
+            background-color: #f8f9fa;
+            border-radius: 5px;
+        }
+        
+        .response-answers {
+            margin-top: 10px;
+        }
+        
+        .answer-item {
+            margin-bottom: 8px;
+            padding-left: 15px;
+            border-left: 2px solid #e9ecef;
+        }
+        
+        .answer-question {
+            font-weight: 500;
+            color: #555;
+        }
+        
+        .answer-text {
+            color: #333;
+        }
+        
+        .no-responses {
+            text-align: center;
+            padding: 30px;
+            color: #666;
+        }
+        
+        .spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid var(--primary);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 15px;
+        }
+        
+        .response-link-container {
+            background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 20px;
+            border: 2px solid #90caf9;
+        }
+        
+        .friends-responses-section {
+            margin-top: 30px;
+            padding: 25px;
+            background: linear-gradient(135deg, #f3e5f5 0%, #e1bee7 100%);
+            border-radius: 10px;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        @media (max-width: 768px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .features {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .share-buttons {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">
+                <i class="fas fa-user-friends"></i>
+            </div>
+            <h1>Mon Profil Partageable</h1>
+            <p class="subtitle">Créez votre profil personnel, partagez-le avec vos amis. Ils répondront à vos questions et vous enverront un lien avec leurs réponses !</p>
+            
+            <div class="step-indicator">
+                <div class="step active">1</div>
+                <div class="step">2</div>
+                <div class="step">3</div>
+            </div>
+            
+            <div class="features">
+                <div class="feature">
+                    <i class="fas fa-user-edit"></i>
+                    <span>Créez votre profil</span>
+                </div>
+                <div class="feature">
+                    <i class="fas fa-share-alt"></i>
+                    <span>Partagez votre lien</span>
+                </div>
+                <div class="feature">
+                    <i class="fas fa-link"></i>
+                    <span>Recevez des liens de réponses</span>
+                </div>
+            </div>
+        </header>
+        
+        <div class="main-content">
+            <!-- Section création de profil -->
+            <div class="card">
+                <h2 class="card-title"><i class="fas fa-user-edit"></i> Créer votre profil</h2>
+                
+                <form id="profileForm">
+                    <div class="form-group">
+                        <label for="fullName" class="required">Nom complet</label>
+                        <input type="text" id="fullName" class="form-control" required placeholder="Votre nom et prénom">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="profileEmail">Votre email (optionnel)</label>
+                        <input type="email" id="profileEmail" class="form-control" placeholder="votre@email.com">
+                        <small style="color: #666; margin-top: 5px; display: block;">Pour notifications (optionnel)</small>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="birthdate">Date de naissance</label>
+                        <input type="date" id="birthdate" class="form-control">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="city">Ville</label>
+                        <input type="text" id="city" class="form-control" placeholder="Votre ville de résidence">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="bio">Biographie</label>
+                        <textarea id="bio" class="form-control" rows="4" placeholder="Parlez un peu de vous... vos passions, vos centres d'intérêt"></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="hobbies">Centres d'intérêt (séparés par des virgules)</label>
+                        <input type="text" id="hobbies" class="form-control" placeholder="ex: Musique, Sport, Voyage, Cinéma">
+                    </div>
+                    
+                    <h3 class="card-title" style="font-size: 1.3rem; margin-top: 30px;">
+                        <i class="fas fa-question-circle"></i> Questions pour vos amis
+                    </h3>
+                    <p>Ajoutez des questions pour tester vos amis !</p>
+                    
+                    <div id="questionsContainer">
+                        <div class="question-item">
+                            <input type="text" class="question form-control" placeholder="Ex: Quelle est ma couleur préférée?" value="Quelle est ma couleur préférée?">
+                        </div>
+                        <div class="question-item" style="margin-top: 10px;">
+                            <input type="text" class="question form-control" placeholder="Ex: Quel est mon plat préféré?" value="Quel est mon plat préféré?">
+                        </div>
+                        <div class="question-item" style="margin-top: 10px;">
+                            <input type="text" class="question form-control" placeholder="Ex: Où ai-je passé mes dernières vacances?" value="Où ai-je passé mes dernières vacances?">
+                        </div>
+                    </div>
+                    
+                    <button type="button" id="addQuestion" class="btn btn-success" style="margin-top: 15px;">
+                        <i class="fas fa-plus"></i> Ajouter une question
+                    </button>
+                    
+                    <button type="submit" class="btn" style="margin-top: 25px;">
+                        <i class="fas fa-link"></i> Générer mon lien de profil
+                    </button>
+                </form>
+            </div>
+            
+            <!-- Section aperçu et partage -->
+            <div class="card">
+                <h2 class="card-title"><i class="fas fa-eye"></i> Votre profil et partage</h2>
+                
+                <div id="profilePreview" class="hidden">
+                    <div class="profile-display">
+                        <div style="display: flex; align-items: center; margin-bottom: 15px;">
+                            <div style="width: 60px; height: 60px; border-radius: 50%; background: linear-gradient(135deg, var(--primary), var(--secondary)); color: white; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; font-weight: bold; margin-right: 15px;" id="previewAvatar">
+                                JD
+                            </div>
+                            <div>
+                                <h3 id="previewName" style="margin: 0;">John Doe</h3>
+                                <p id="previewLocation" style="color: #666; margin: 5px 0 0;">Paris, France</p>
+                            </div>
+                        </div>
+                        <p id="previewBio" style="color: #555;">Bio de l'utilisateur...</p>
+                    </div>
+                    
+                    <div class="link-container">
+                        <p><strong>Votre lien de profil est prêt !</strong></p>
+                        <p>Partagez ce lien avec vos amis :</p>
+                        
+                        <a href="#" id="profileLink" class="profile-link" target="_blank">
+                            https://monprofil.com/profil/12345
+                        </a>
+                        
+                        <div class="alert alert-info" style="margin: 15px 0;">
+                            <i class="fas fa-info-circle"></i>
+                            <div>
+                                <strong>Comment ça marche :</strong> Vos amis répondront à vos questions et vous enverront un lien contenant leurs réponses.
+                            </div>
+                        </div>
+                        
+                        <div class="share-buttons">
+                            <a href="#" class="share-btn" id="shareFB" style="background: #3b5998;">
+                                <i class="fab fa-facebook-f"></i> Facebook
+                            </a>
+                            <a href="#" class="share-btn" id="shareTwitter" style="background: #1da1f2;">
+                                <i class="fab fa-twitter"></i> Twitter
+                            </a>
+                            <a href="#" class="share-btn" id="shareWhatsApp" style="background: #25d366;">
+                                <i class="fab fa-whatsapp"></i> WhatsApp
+                            </a>
+                            <a href="#" class="share-btn" id="copyLink" style="background: #6c757d;">
+                                <i class="fas fa-copy"></i> Copier
+                            </a>
+                        </div>
+                    </div>
+                    
+                    <!-- Section pour voir les liens de réponses reçus -->
+                    <div class="friends-responses-section">
+                        <h3><i class="fas fa-inbox"></i> Liens de réponses reçus</h3>
+                        <p style="margin: 10px 0 20px; color: #666;">
+                            Quand vos amis répondent, ils génèrent un lien que vous pouvez consulter ici.
+                        </p>
+                        
+                        <div id="receivedResponsesList">
+                            <div class="no-responses">
+                                <i class="fas fa-envelope-open" style="font-size: 3rem; color: #ddd; margin-bottom: 15px;"></i>
+                                <p>Aucun lien de réponse reçu pour le moment.</p>
+                                <p>Partagez votre profil pour recevoir des réponses !</p>
+                            </div>
+                        </div>
+                        
+                        <button id="refreshResponsesBtn" class="btn btn-secondary" style="margin-top: 15px;">
+                            <i class="fas fa-sync"></i> Actualiser la liste
+                        </button>
+                    </div>
+                </div>
+                
+                <div id="noProfileMessage" style="text-align: center; padding: 40px 20px;">
+                    <i class="fas fa-share-alt" style="font-size: 4rem; color: #ddd; margin-bottom: 20px;"></i>
+                    <h3 style="color: #666; margin-bottom: 15px;">Votre profil apparaîtra ici</h3>
+                    <p>Créez votre profil pour générer un lien unique à partager avec vos amis.</p>
+                    <div class="alert alert-info" style="margin-top: 20px;">
+                        <i class="fas fa-link"></i>
+                        <div><strong>Système de liens :</strong> Vos amis génèrent un lien avec leurs réponses qu'ils vous envoient.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Section pour les amis (vue publique) -->
+        <div class="card hidden" id="friendView">
+            <h2 class="card-title"><i class="fas fa-users"></i> Répondre au profil</h2>
+            <p>Vous avez été invité à répondre à ce profil. Après avoir répondu, vous recevrez un lien à partager.</p>
+            
+            <div class="profile-display" style="margin: 20px 0;">
+                <div style="display: flex; align-items: center; margin-bottom: 15px;">
+                    <div style="width: 60px; height: 60px; border-radius: 50%; background: linear-gradient(135deg, var(--primary), var(--secondary)); color: white; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; font-weight: bold; margin-right: 15px;" id="friendAvatar">
+                        JD
+                    </div>
+                    <div>
+                        <h3 id="friendName" style="margin: 0;">Profil de John Doe</h3>
+                        <p id="friendLocation" style="color: #666; margin: 5px 0 0;">Paris, France</p>
+                    </div>
+                </div>
+                <p id="friendBio" style="color: #555; margin: 10px 0;">Bio de l'utilisateur...</p>
+            </div>
+            
+            <div class="alert alert-info">
+                <i class="fas fa-link"></i>
+                <div>
+                    <strong>Système de liens :</strong> Après vos réponses, vous générerez un lien unique que vous pourrez envoyer à la personne.
+                </div>
+            </div>
+            
+            <form id="friendForm">
+                <h3 style="margin-bottom: 20px;">Répondez aux questions :</h3>
+                
+                <div id="friendQuestionsContainer">
+                    <!-- Questions ajoutées dynamiquement -->
+                </div>
+                
+                <div class="form-group">
+                    <label for="friendNameInput" class="required">Votre nom</label>
+                    <input type="text" id="friendNameInput" class="form-control" required placeholder="Votre nom">
+                </div>
+                
+                <div class="form-group">
+                    <label for="personalMessage" class="required">Message personnel</label>
+                    <textarea id="personalMessage" class="form-control" rows="4" placeholder="Écrivez un message personnel pour votre ami..." required></textarea>
+                </div>
+                
+                <button type="submit" class="btn" id="submitFriendForm">
+                    <i class="fas fa-link"></i> Générer mon lien de réponses
+                </button>
+                
+                <div id="generatingIndicator" class="hidden" style="text-align: center; padding: 20px;">
+                    <div class="spinner"></div>
+                    <p>Génération du lien en cours...</p>
+                </div>
+            </form>
+            
+            <!-- Section après soumission : affichage du lien de réponse -->
+            <div id="responseLinkSection" class="hidden">
+                <div class="response-link-container">
+                    <h3 style="color: var(--primary); margin-bottom: 15px;">
+                        <i class="fas fa-check-circle"></i> Vos réponses sont prêtes !
+                    </h3>
+                    
+                    <p><strong>Voici le lien contenant vos réponses :</strong></p>
+                    
+                    <a href="#" id="responseLink" class="profile-link" target="_blank">
+                        https://monprofil.com/reponses/abc123
+                    </a>
+                    
+                    <div class="alert alert-success" style="margin: 15px 0;">
+                        <i class="fas fa-share-alt"></i>
+                        <div>
+                            <strong>Partagez ce lien avec <span id="profileOwnerName">[Nom]</span> :</strong> 
+                            Il/elle pourra cliquer dessus pour voir vos réponses.
+                        </div>
+                    </div>
+                    
+                    <div class="share-buttons">
+                        <button class="share-btn" onclick="copyResponseLink()" style="background: #6c757d;">
+                            <i class="fas fa-copy"></i> Copier le lien
+                        </button>
+                        <a href="#" class="share-btn" id="shareResponseWhatsApp" style="background: #25d366;">
+                            <i class="fab fa-whatsapp"></i> WhatsApp
+                        </a>
+                        <a href="#" class="share-btn" id="shareResponseTelegram" style="background: #0088cc;">
+                            <i class="fab fa-telegram"></i> Telegram
+                        </a>
+                    </div>
+                    
+                    <div style="margin-top: 20px; padding: 15px; background: #fff8e1; border-radius: 8px;">
+                        <h4><i class="fas fa-lightbulb"></i> Comment partager ?</h4>
+                        <ol style="margin: 10px 0 0 20px; color: #666;">
+                            <li>Copiez le lien ci-dessus</li>
+                            <li>Envoyez-le à <span id="profileOwnerName2">[Nom]</span></li>
+                            <li>Il/elle cliquera dessus pour voir vos réponses</li>
+                        </ol>
+                    </div>
+                </div>
+                
+                <div style="text-align: center; margin-top: 20px;">
+                    <button id="newResponse" class="btn btn-secondary">
+                        <i class="fas fa-redo"></i> Faire une nouvelle réponse
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Section d'erreur -->
+            <div id="saveError" class="hidden" style="text-align: center; padding: 30px;">
+                <i class="fas fa-exclamation-triangle" style="font-size: 4rem; color: var(--danger); margin-bottom: 20px;"></i>
+                <h3>Erreur de génération</h3>
+                <p>Une erreur est survenue. Veuillez réessayer.</p>
+                <button id="retryButton" class="btn btn-warning" style="margin-top: 20px;">
+                    <i class="fas fa-redo"></i> Réessayer
+                </button>
+            </div>
+        </div>
+        
+        <!-- Section pour voir une réponse spécifique -->
+        <div class="card hidden" id="responseView">
+            <h2 class="card-title"><i class="fas fa-envelope-open-text"></i> Réponse de <span id="responseAuthor">[Ami]</span></h2>
+            
+            <div style="text-align: center; margin-bottom: 20px;">
+                <div style="width: 80px; height: 80px; border-radius: 50%; background: linear-gradient(135deg, var(--primary), var(--secondary)); color: white; display: flex; align-items: center; justify-content: center; font-size: 2rem; font-weight: bold; margin: 0 auto 15px;">
+                    <span id="responseAuthorInitials">A</span>
+                </div>
+                <h3 id="responseFullAuthor">Ami</h3>
+                <p id="responseDate" style="color: #666; font-size: 0.9rem;">Date</p>
+            </div>
+            
+            <div class="response-message" style="margin: 20px 0;">
+                <h4><i class="fas fa-comment"></i> Message personnel</h4>
+                <p id="responsePersonalMessage">Message...</p>
+            </div>
+            
+            <div class="responses-section">
+                <h4><i class="fas fa-question-circle"></i> Réponses aux questions</h4>
+                <div id="responseAnswersList">
+                    <!-- Les réponses apparaîtront ici -->
+                </div>
+            </div>
+            
+            <div style="text-align: center; margin-top: 30px;">
+                <button id="backToProfile" class="btn btn-secondary">
+                    <i class="fas fa-arrow-left"></i> Retour au profil
+                </button>
+                <button id="viewAnotherResponse" class="btn" style="margin-left: 10px;">
+                    <i class="fas fa-inbox"></i> Voir une autre réponse
+                </button>
+            </div>
+        </div>
+        
+        <footer>
+            <p><strong>Mon Profil Partageable</strong> &copy; 2023 - Système de liens de réponses</p>
+            <p style="margin-top: 10px; font-size: 0.8rem;">
+                <i class="fas fa-link"></i> Chaque ami génère un lien unique contenant ses réponses
+            </p>
+        </footer>
+    </div>
+
+    <script>
+        // Variables globales
+        let currentProfile = null;
+        let currentResponse = null;
+        let questionCount = 3;
+        
+        // Initialisation
+        document.addEventListener('DOMContentLoaded', function() {
+            // Éléments DOM
+            const profileForm = document.getElementById('profileForm');
+            const addQuestionBtn = document.getElementById('addQuestion');
+            const profilePreview = document.getElementById('profilePreview');
+            const noProfileMessage = document.getElementById('noProfileMessage');
+            const friendView = document.getElementById('friendView');
+            const responseView = document.getElementById('responseView');
+            const copyLinkBtn = document.getElementById('copyLink');
+            const refreshResponsesBtn = document.getElementById('refreshResponsesBtn');
+            
+            // Vérifier l'URL pour différents modes
+            const urlParams = new URLSearchParams(window.location.search);
+            const profileId = urlParams.get('profile');
+            const responseId = urlParams.get('response');
+            
+            if (responseId) {
+                // Mode : Voir une réponse spécifique
+                loadResponseView(responseId);
+            } else if (profileId) {
+                // Mode : Ami répondant à un profil
+                loadFriendView(profileId);
+            } else {
+                // Mode : Création de profil
+                loadCreatorView();
+            }
+            
+            // Ajouter une question
+            addQuestionBtn.addEventListener('click', function() {
+                questionCount++;
+                const newQuestion = document.createElement('div');
+                newQuestion.className = 'question-item';
+                newQuestion.style.marginTop = '10px';
+                newQuestion.innerHTML = `
+                    <input type="text" class="question form-control" placeholder="Question ${questionCount}">
+                `;
+                document.getElementById('questionsContainer').appendChild(newQuestion);
+            });
+            
+            // Création du profil
+            profileForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                // Récupérer les données
+                const profileData = {
+                    id: 'profile_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9),
+                    fullName: document.getElementById('fullName').value,
+                    email: document.getElementById('profileEmail').value || '',
+                    birthdate: document.getElementById('birthdate').value || '',
+                    city: document.getElementById('city').value || '',
+                    bio: document.getElementById('bio').value || '',
+                    hobbies: document.getElementById('hobbies').value || '',
+                    questions: [],
+                    createdAt: new Date().toISOString(),
+                    responseLinks: [] // Stocke les IDs des liens de réponses reçus
+                };
+                
+                // Récupérer les questions
+                const questionInputs = document.querySelectorAll('.question');
+                questionInputs.forEach(input => {
+                    if (input.value.trim()) {
+                        profileData.questions.push(input.value.trim());
+                    }
+                });
+                
+                // Sauvegarder le profil
+                currentProfile = profileData;
+                localStorage.setItem('currentProfile', JSON.stringify(profileData));
+                
+                // Générer le lien du profil
+                const baseUrl = window.location.origin + window.location.pathname;
+                const profileLink = `${baseUrl}?profile=${profileData.id}`;
+                
+                // Afficher l'aperçu
+                showProfilePreview(profileData, profileLink);
+            });
+            
+            // Copier le lien du profil
+            copyLinkBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                const link = document.getElementById('profileLink').href;
+                navigator.clipboard.writeText(link).then(() => {
+                    const originalText = copyLinkBtn.innerHTML;
+                    copyLinkBtn.innerHTML = '<i class="fas fa-check"></i> Copié!';
+                    setTimeout(() => {
+                        copyLinkBtn.innerHTML = originalText;
+                    }, 2000);
+                });
+            });
+            
+            // Actualiser les réponses reçues
+            refreshResponsesBtn.addEventListener('click', function() {
+                loadReceivedResponses();
+            });
+        });
+        
+        // ==============================
+        // FONCTIONS PRINCIPALES
+        // ==============================
+        
+        // Charger la vue créateur
+        function loadCreatorView() {
+            // Vérifier s'il y a un profil existant
+            const savedProfile = localStorage.getItem('currentProfile');
+            if (savedProfile) {
+                currentProfile = JSON.parse(savedProfile);
+                const baseUrl = window.location.origin + window.location.pathname;
+                const profileLink = `${baseUrl}?profile=${currentProfile.id}`;
+                showProfilePreview(currentProfile, profileLink);
+                loadReceivedResponses();
+            }
+        }
+        
+        // Afficher l'aperçu du profil
+        function showProfilePreview(profileData, profileLink) {
+            // Mettre à jour les informations
+            const names = profileData.fullName.split(' ');
+            const initials = (names[0].charAt(0) + (names[1] ? names[1].charAt(0) : '')).toUpperCase();
+            
+            document.getElementById('previewAvatar').textContent = initials;
+            document.getElementById('previewName').textContent = profileData.fullName;
+            document.getElementById('previewLocation').textContent = profileData.city || '';
+            document.getElementById('previewBio').textContent = profileData.bio || 'Aucune biographie fournie.';
+            
+            // Mettre à jour le lien
+            document.getElementById('profileLink').href = profileLink;
+            document.getElementById('profileLink').textContent = profileLink;
+            
+            // Mettre à jour les boutons de partage
+            const shareText = `Répondez à mes questions et envoyez-moi un lien avec vos réponses !`;
+            document.getElementById('shareFB').href = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(profileLink)}`;
+            document.getElementById('shareTwitter').href = `https://twitter.com/intent/tweet?url=${encodeURIComponent(profileLink)}&text=${encodeURIComponent(shareText)}`;
+            document.getElementById('shareWhatsApp').href = `https://wa.me/?text=${encodeURIComponent(shareText + ' ' + profileLink)}`;
+            
+            // Afficher la section
+            document.getElementById('profilePreview').classList.remove('hidden');
+            document.getElementById('noProfileMessage').classList.add('hidden');
+        }
+        
+        // Charger les réponses reçues
+        function loadReceivedResponses() {
+            if (!currentProfile || !currentProfile.responseLinks) return;
+            
+            const responsesList = document.getElementById('receivedResponsesList');
+            
+            if (currentProfile.responseLinks.length === 0) {
+                responsesList.innerHTML = `
+                    <div class="no-responses">
+                        <i class="fas fa-envelope-open" style="font-size: 3rem; color: #ddd; margin-bottom: 15px;"></i>
+                        <p>Aucun lien de réponse reçu pour le moment.</p>
+                        <p>Partagez votre profil pour recevoir des réponses !</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            let html = '';
+            
+            // Charger chaque réponse depuis le localStorage
+            currentProfile.responseLinks.forEach((responseId, index) => {
+                const responseData = localStorage.getItem(`response_${responseId}`);
+                if (responseData) {
+                    const response = JSON.parse(responseData);
+                    const date = new Date(response.createdAt).toLocaleDateString('fr-FR');
+                    
+                    const baseUrl = window.location.origin + window.location.pathname;
+                    const responseLink = `${baseUrl}?response=${responseId}`;
+                    
+                    html += `
+                        <div class="response-item">
+                            <div class="response-header">
+                                <div class="response-author">${response.friendName}</div>
+                                <div class="response-date">${date}</div>
+                            </div>
+                            <p style="margin: 10px 0;">${response.personalMessage.substring(0, 100)}...</p>
+                            <a href="${responseLink}" class="btn" style="padding: 8px 15px; font-size: 0.9rem;">
+                                <i class="fas fa-eye"></i> Voir les réponses complètes
+                            </a>
+                        </div>
+                    `;
+                }
+            });
+            
+            responsesList.innerHTML = html || `
+                <div class="no-responses">
+                    <p>Aucune réponse valide trouvée.</p>
+                </div>
+            `;
+        }
+        
+        // Charger la vue ami (pour répondre)
+        function loadFriendView(profileId) {
+            // Chercher le profil dans localStorage
+            const savedProfile = localStorage.getItem(profileId) || localStorage.getItem('currentProfile');
+            
+            if (!savedProfile) {
+                showProfileNotFound();
+                return;
+            }
+            
+            const profile = JSON.parse(savedProfile);
+            
+            // Mettre à jour l'affichage du profil
+            const names = profile.fullName.split(' ');
+            const initials = (names[0].charAt(0) + (names[1] ? names[1].charAt(0) : '')).toUpperCase();
+            
+            document.getElementById('friendAvatar').textContent = initials;
+            document.getElementById('friendName').textContent = `Profil de ${profile.fullName}`;
+            document.getElementById('friendLocation').textContent = profile.city || '';
+            document.getElementById('friendBio').textContent = profile.bio || 'Aucune biographie fournie.';
+            document.getElementById('profileOwnerName').textContent = names[0];
+            document.getElementById('profileOwnerName2').textContent = names[0];
+            
+            // Ajouter les questions
+            const container = document.getElementById('friendQuestionsContainer');
+            container.innerHTML = '';
+            
+            profile.questions.forEach((question, index) => {
+                const questionElement = document.createElement('div');
+                questionElement.className = 'form-group';
+                questionElement.innerHTML = `
+                    <label>${index + 1}. ${question}</label>
+                    <input type="text" class="form-control friend-answer" data-index="${index}" placeholder="Votre réponse..." required>
+                `;
+                container.appendChild(questionElement);
+            });
+            
+            // Soumission des réponses
+            document.getElementById('friendForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const friendName = document.getElementById('friendNameInput').value;
+                const personalMessage = document.getElementById('personalMessage').value;
+                
+                // Récupérer les réponses
+                const answers = [];
+                document.querySelectorAll('.friend-answer').forEach((input, index) => {
+                    answers.push({
+                        question: profile.questions[index],
+                        answer: input.value
+                    });
+                });
+                
+                // Afficher l'indicateur de chargement
+                this.classList.add('hidden');
+                document.getElementById('generatingIndicator').classList.remove('hidden');
+                
+                try {
+                    // Générer un ID unique pour la réponse
+                    const responseId = 'response_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+                    
+                    // Créer l'objet réponse
+                    const responseData = {
+                        id: responseId,
+                        profileId: profileId,
+                        profileName: profile.fullName,
+                        friendName: friendName,
+                        personalMessage: personalMessage,
+                        answers: answers,
+                        createdAt: new Date().toISOString()
+                    };
+                    
+                    // Sauvegarder la réponse
+                    localStorage.setItem(`response_${responseId}`, JSON.stringify(responseData));
+                    
+                    // Ajouter la référence dans le profil (si le profil est dans localStorage)
+                    if (localStorage.getItem('currentProfile')) {
+                        const currentProfileData = JSON.parse(localStorage.getItem('currentProfile'));
+                        if (!currentProfileData.responseLinks) {
+                            currentProfileData.responseLinks = [];
+                        }
+                        currentProfileData.responseLinks.push(responseId);
+                        localStorage.setItem('currentProfile', JSON.stringify(currentProfileData));
+                    }
+                    
+                    // Générer le lien de la réponse
+                    const baseUrl = window.location.origin + window.location.pathname;
+                    const responseLink = `${baseUrl}?response=${responseId}`;
+                    
+                    // Afficher le lien généré
+                    setTimeout(() => {
+                        document.getElementById('generatingIndicator').classList.add('hidden');
+                        document.getElementById('responseLinkSection').classList.remove('hidden');
+                        
+                        document.getElementById('responseLink').href = responseLink;
+                        document.getElementById('responseLink').textContent = responseLink;
+                        
+                        // Configurer les boutons de partage
+                        const shareText = `Voici mes réponses à ton profil, ${names[0]} !`;
+                        document.getElementById('shareResponseWhatsApp').href = `https://wa.me/?text=${encodeURIComponent(shareText + ' ' + responseLink)}`;
+                        document.getElementById('shareResponseTelegram').href = `https://t.me/share/url?url=${encodeURIComponent(responseLink)}&text=${encodeURIComponent(shareText)}`;
+                        
+                        currentResponse = responseData;
+                    }, 1000);
+                    
+                } catch (error) {
+                    console.error('Erreur:', error);
+                    document.getElementById('generatingIndicator').classList.add('hidden');
+                    document.getElementById('saveError').classList.remove('hidden');
+                    
+                    document.getElementById('retryButton').onclick = function() {
+                        document.getElementById('saveError').classList.add('hidden');
+                        document.getElementById('friendForm').classList.remove('hidden');
+                    };
+                }
+            });
+            
+            // Nouvelle réponse
+            document.getElementById('newResponse').addEventListener('click', function() {
+                location.reload();
+            });
+            
+            // Afficher la vue
+            document.querySelector('.main-content').classList.add('hidden');
+            document.getElementById('friendView').classList.remove('hidden');
+        }
+        
+        // Copier le lien de réponse
+        function copyResponseLink() {
+            const link = document.getElementById('responseLink').href;
+            navigator.clipboard.writeText(link).then(() => {
+                const button = document.querySelector('.share-btn:nth-child(1)');
+                const originalText = button.innerHTML;
+                button.innerHTML = '<i class="fas fa-check"></i> Copié !';
+                setTimeout(() => {
+                    button.innerHTML = originalText;
+                }, 2000);
+            });
+        }
+        
+        // Charger la vue réponse (pour voir une réponse spécifique)
+        function loadResponseView(responseId) {
+            const responseData = localStorage.getItem(`response_${responseId}`);
+            
+            if (!responseData) {
+                showResponseNotFound();
+                return;
+            }
+            
+            const response = JSON.parse(responseData);
+            currentResponse = response;
+            
+            // Mettre à jour les informations
+            const authorNames = response.friendName.split(' ');
+            const initials = (authorNames[0].charAt(0) + (authorNames[1] ? authorNames[1].charAt(0) : '')).toUpperCase();
+            
+            document.getElementById('responseAuthor').textContent = response.friendName;
+            document.getElementById('responseAuthorInitials').textContent = initials;
+            document.getElementById('responseFullAuthor').textContent = response.friendName;
+            document.getElementById('responsePersonalMessage').textContent = response.personalMessage;
+            
+            const date = new Date(response.createdAt).toLocaleDateString('fr-FR', {
+                day: 'numeric',
+                month: 'long',
+                year: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+            document.getElementById('responseDate').textContent = date;
+            
+            // Afficher les réponses
+            const answersList = document.getElementById('responseAnswersList');
+            let html = '';
+            
+            response.answers.forEach((item, index) => {
+                html += `
+                    <div class="answer-item">
+                        <div class="answer-question">${index + 1}. ${item.question}</div>
+                        <div class="answer-text">${item.answer}</div>
+                    </div>
+                `;
+            });
+            
+            answersList.innerHTML = html;
+            
+            // Configurer les boutons
+            document.getElementById('backToProfile').onclick = function() {
+                // Essayer de trouver le profil associé
+                const profileData = localStorage.getItem('currentProfile');
+                if (profileData) {
+                    const profile = JSON.parse(profileData);
+                    const baseUrl = window.location.origin + window.location.pathname;
+                    const profileLink = `${baseUrl}?profile=${profile.id}`;
+                    window.location.href = profileLink;
+                } else {
+                    window.location.href = window.location.pathname;
+                }
+            };
+            
+            document.getElementById('viewAnotherResponse').onclick = function() {
+                window.location.href = window.location.pathname;
+            };
+            
+            // Afficher la vue
+            document.querySelector('.main-content').classList.add('hidden');
+            document.getElementById('responseView').classList.remove('hidden');
+        }
+        
+        // Afficher l'erreur de profil non trouvé
+        function showProfileNotFound() {
+            document.getElementById('friendView').innerHTML = `
+                <div style="text-align: center; padding: 40px 20px;">
+                    <i class="fas fa-exclamation-triangle" style="font-size: 4rem; color: #dc3545; margin-bottom: 20px;"></i>
+                    <h3>Profil non trouvé</h3>
+                    <p>Ce profil n'existe pas ou a été supprimé.</p>
+                    <a href="${window.location.pathname}" class="btn" style="margin-top: 20px;">
+                        <i class="fas fa-plus"></i> Créer votre propre profil
+                    </a>
+                </div>
+            `;
+        }
+        
+        // Afficher l'erreur de réponse non trouvée
+        function showResponseNotFound() {
+            document.getElementById('responseView').innerHTML = `
+                <div style="text-align: center; padding: 40px 20px;">
+                    <i class="fas fa-exclamation-triangle" style="font-size: 4rem; color: #dc3545; margin-bottom: 20px;"></i>
+                    <h3>Réponse non trouvée</h3>
+                    <p>Ce lien de réponse n'existe pas ou a expiré.</p>
+                    <a href="${window.location.pathname}" class="btn" style="margin-top: 20px;">
+                        <i class="fas fa-plus"></i> Créer votre propre profil
+                    </a>
+                </div>
+            `;
+        }
+    </script>
+</body>
+</html>
